@@ -7,6 +7,7 @@
     "serve": "cross-env NODE_ENV=production node dist/server.js",
     "start": "cross-env NODE_ENV=dev nodemon -L --exec babel-node application/server.js",
     "clear": "rimraf dist",
+    "test": "echo 'No Tests Found!'",
     "build": "yarn clear && ./node_modules/.bin/babel ./application --out-dir ./dist --source-maps --copy-files"
   },
   "dependencies": {
