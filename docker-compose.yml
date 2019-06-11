@@ -1,0 +1,18 @@
+version: "3"
+services:
+
+  mongo:
+    container_name: obah-db
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=obah_username
+      - MONGO_INITDB_ROOT_PASSWORD=obah_pwd
+      - MONGO_INITDB_DATABASE=obah
+    command: mongod --smallfiles --bind_ip_all
+    volumes:
+      - mongo_obah_volume:/etc/mongo
+
+volumes:
+  mongo_obah_volume:
