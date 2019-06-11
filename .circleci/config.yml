@@ -41,5 +41,5 @@ jobs:
 
       #store artifact
       - store_artifacts:
-          path: /repo/dist/*
+          path: /repo/dist
           destination: artifact
