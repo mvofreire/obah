@@ -1,0 +1,14 @@
+{
+  "name": "obah",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mvofreire/obah.git",
+  "author": "Marcus Freire <vinny.freire@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node application/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
