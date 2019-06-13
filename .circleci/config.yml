@@ -7,6 +7,16 @@ executors:
 
     working_directory: ~/repo
 
+commands:
+  deploy:
+    description: "A very simple command for demonstration purposes"
+    parameters:
+      to:
+        type: string
+        default: "Hello World"
+    steps:
+      - run: echo << parameters.to >>
+
 jobs:
   test:
     executor: obah-executor
@@ -44,15 +54,12 @@ jobs:
       - run:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
-      - run:
-          name: Deploy Api
-          command: |
-            if [[ ${CIRCLE_BRANCH} == "master" ]]; then
-              echo "It worked!";
-              ls dist;
-            else
-              echo "Nope!"; exit 1
-            fi
+
+      - deploy
+          to:Teste
+          filters:
+            branches:
+              only: master
 workflows:
   version: 2
   test_build_deploy:
