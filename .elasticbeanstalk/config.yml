@@ -4,5 +4,5 @@ branch-defaults:
 global:
   application_name: ObahApi
   default_platform: Node.js running on 64bit Amazon Linux/4.9.0
-  default_region: us-east-1a
+  default_region: us-east-1
   sc: git
