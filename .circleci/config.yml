@@ -12,10 +12,6 @@ commands:
     description: "Deploy Application to ElasticBeanstalk"
     steps:
       - run:
-          name: Atualizando versão de Api
-          command: |
-            yarn version --patch
-      - run:
           name: Install Aws-cli
           command: |
             sudo apt-get -y -qq update
