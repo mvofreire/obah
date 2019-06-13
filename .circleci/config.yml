@@ -45,7 +45,7 @@ jobs:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
       - persist_to_workspace:
-          root: /dist
+          root: dist
           paths:
             - .
   deploy:
