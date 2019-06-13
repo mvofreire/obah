@@ -56,7 +56,7 @@ jobs:
           command: yarn build
 
       - deploy
-          to:Teste
+          to: Teste
           filters:
             branches:
               only: master
