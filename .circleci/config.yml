@@ -23,14 +23,6 @@ jobs:
 
       - run: yarn test
       - run: yarn build
-      - run: yarn deploy
-  deploy:
-    working_directory: ~/app
-    docker:
-      - image: circleci/node:10
-    steps:
-      - checkout
-
       - run:
           name: Installing deployment dependencies
           working_directory: /
@@ -43,12 +35,3 @@ jobs:
       - run:
           name: Deploying
           command: eb deploy ObahApi-env
-workflows:
-  version: 2
-  build:
-    jobs:
-      - deploy:
-          filters:
-            branches:
-              only:
-                - master
