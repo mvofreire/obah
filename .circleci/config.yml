@@ -9,6 +9,19 @@ executors:
 
 commands:
   deploy:
+    description: "Deploy Application to ElasticBeanstalk"
+    steps:
+      - run:
+          name: Install Aws-cli
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python-pip python-dev build-essential
+            sudo pip install --upgrade setuptools
+            sudo pip install awsebcli --upgrade
+      - run:
+          name: Deploying
+          command: eb deploy ObahApi-env
+  hello:
     description: "A very simple command for demonstration purposes"
     parameters:
       to:
