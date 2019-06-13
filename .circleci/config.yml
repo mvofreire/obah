@@ -60,7 +60,7 @@ jobs:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
 
-      - deploy
+      - deploy:
           filters:
             branches:
               only: master
