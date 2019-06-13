@@ -49,6 +49,7 @@ jobs:
           command: |
             if [[ ${CIRCLE_BRANCH} == "master" ]]; then
               echo "It worked!";
+              ls dist;
             else
               echo "Nope!"; exit 1
             fi
