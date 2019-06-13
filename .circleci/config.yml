@@ -15,8 +15,6 @@ commands:
           name: Atualizando versão de Api
           command: |
             yarn version --patch
-            git push origin master
-            git push --tags
       - run:
           name: Install Aws-cli
           command: |
