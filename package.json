@@ -8,8 +8,7 @@
     "start": "cross-env NODE_ENV=dev nodemon -L --exec babel-node application/server.js",
     "clear": "rimraf dist",
     "test": "echo 'No Tests Found!'",
-    "build": "yarn clear && ./node_modules/.bin/babel ./application --out-dir ./dist --source-maps --copy-files",
-    "deploy": "netlify deploy --dir=./dist -p -m \"$(git log -1 --pretty=%B)\""
+    "build": "yarn clear && ./node_modules/.bin/babel ./application --out-dir ./dist --source-maps --copy-files"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",

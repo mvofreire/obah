@@ -1,58 +1,69 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+
+executors:
+  my-executor:
     docker:
       - image: circleci/node:10
 
     working_directory: ~/repo
 
+jobs:
+  test:
+    executor: my-executor
     steps:
       - checkout
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
-
       - run:
           name: Instanlando dependencias
           command: yarn install
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - run:
           name: Testando a Aplicação
           command: yarn test
-
+  build:
+    executor: my-executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run:
+          name: Instanlando dependencias
+          command: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
   deploy:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/repo
+    executor: my-executor
     steps:
       - run:
-          name: Installing deployment dependencies
-          command: |
-            sudo apt-get -y -qq update
-            sudo apt-get install python-pip python-dev build-essential
-            sudo pip install --upgrade setuptools
-            sudo pip install awsebcli --upgrade
+          name: Install Aws-cli
+          command: sudo pip install awscli
       - run:
           name: Deploying
           command: eb deploy ObahApi-env
 workflows:
   version: 2
-  build-and-deploy:
+  test_build_deploy:
     jobs:
+      - test
       - build
-      - deploy:
           requires:
-            - build
-          filters:
-            branches:
-              only: master
+            - test
+      # - deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: master
