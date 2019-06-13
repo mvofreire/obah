@@ -5,7 +5,7 @@ executors:
     docker:
       - image: circleci/node:10
 
-    working_directory: ~/repo
+    working_directory: /repo
 
 jobs:
   test:
@@ -44,9 +44,17 @@ jobs:
       - run:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
+      - persist_to_workspace:
+          root: dist
+          paths:
+            - .
   deploy:
-    executor: my-executor
+    docker:
+      - image: circleci/python:2.7-jessie
     steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: /dist
       - run:
           name: Install Aws-cli
           command: sudo pip install awscli
