@@ -1,7 +1,7 @@
 version: 2.1
 
 executors:
-  my-executor:
+  obah-executor:
     docker:
       - image: circleci/node:10
 
@@ -9,7 +9,7 @@ executors:
 
 jobs:
   test:
-    executor: my-executor
+    executor: obah-executor
     steps:
       - checkout
       - restore_cache:
@@ -27,7 +27,7 @@ jobs:
           name: Testando a Aplicação
           command: yarn test
   build:
-    executor: my-executor
+    executor: obah-executor
     steps:
       - checkout
       - restore_cache:
@@ -45,20 +45,22 @@ jobs:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
       - persist_to_workspace:
-          root: dist
+          root: /dist
           paths:
             - .
   deploy:
-    docker:
-      - image: circleci/python:2.7-jessie
-    working_directory: ~/repo
+    executor: obah-executor
     steps:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: /dist
       - run:
           name: Install Aws-cli
-          command: sudo pip install awscli
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python-pip python-dev build-essential
+            sudo pip install --upgrade setuptools
+            sudo pip install awsebcli --upgrade
       - run:
           name: Deploying
           command: eb deploy ObahApi-env
