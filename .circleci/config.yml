@@ -18,9 +18,15 @@ commands:
             sudo apt-get install python-pip python-dev build-essential
             sudo pip install --upgrade setuptools
             sudo pip install awsebcli --upgrade
+          filters:
+            branches:
+              only: master
       - run:
           name: Deploying
           command: eb deploy ObahApi-env
+          filters:
+            branches:
+              only: master
 
 jobs:
   test:
@@ -60,10 +66,7 @@ jobs:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
 
-      - deploy:
-          filters:
-            branches:
-              only: master
+      - deploy
 workflows:
   version: 2
   test_build_deploy:
