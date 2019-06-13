@@ -15,8 +15,8 @@ jobs:
             - v1-dependencies-
 
       - run:
-        name: Instanlando dependencias
-        command: yarn install
+          name: Instanlando dependencias
+          command: yarn install
 
       - save_cache:
           paths:
@@ -24,12 +24,12 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-        name: Testando a Aplicação
-        command: yarn test
+          name: Testando a Aplicação
+          command: yarn test
 
       - run:
-        name: Gerando arquivos de Build e Deploy
-        command: yarn build
+          name: Gerando arquivos de Build e Deploy
+          command: yarn build
   deploy:
     docker:
       - image: circleci/node:10
