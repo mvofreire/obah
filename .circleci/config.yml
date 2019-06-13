@@ -5,7 +5,7 @@ executors:
     docker:
       - image: circleci/node:10
 
-    working_directory: /repo
+    working_directory: ~/repo
 
 jobs:
   test:
@@ -51,6 +51,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
+    working_directory: ~/repo
     steps:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
