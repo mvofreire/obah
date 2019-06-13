@@ -12,6 +12,12 @@ commands:
     description: "Deploy Application to ElasticBeanstalk"
     steps:
       - run:
+          name: Atualizando versão de Api
+          command: |
+            yarn version --patch
+            git push origin master
+            git push --tags
+      - run:
           name: Install Aws-cli
           command: |
             sudo apt-get -y -qq update
@@ -22,7 +28,7 @@ commands:
             branches:
               only: master
       - run:
-          name: Deploying
+          name: Deploying Api
           command: eb deploy
           filters:
             branches:
@@ -65,7 +71,6 @@ jobs:
       - run:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
-
       - deploy
 workflows:
   version: 2
