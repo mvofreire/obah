@@ -23,7 +23,7 @@ commands:
               only: master
       - run:
           name: Deploying
-          command: eb deploy ObahApi-env
+          command: eb deploy
           filters:
             branches:
               only: master
