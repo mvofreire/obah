@@ -44,26 +44,14 @@ jobs:
       - run:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
-      - persist_to_workspace:
-          root: dist
-          paths:
-            - .
-  deploy:
-    executor: obah-executor
-    steps:
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: /repo/dist
       - run:
-          name: Install Aws-cli
+          name: Deploy Api
           command: |
-            sudo apt-get -y -qq update
-            sudo apt-get install python-pip python-dev build-essential
-            sudo pip install --upgrade setuptools
-            sudo pip install awsebcli --upgrade
-      - run:
-          name: Deploying
-          command: eb deploy ObahApi-env
+            if [[ ${CIRCLE_BRANCH} == "master" ]]; then
+              echo "It worked!";
+            else
+              echo "Nope!"; exit 1
+            fi
 workflows:
   version: 2
   test_build_deploy:
@@ -72,9 +60,3 @@ workflows:
       - build:
           requires:
             - test
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
