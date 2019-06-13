@@ -2,7 +2,7 @@ branch-defaults:
   master:
     environment: ObahApi-env
 global:
-  application_name: ObahApi
+  application_name: obah-api
   default_platform: Node.js running on 64bit Amazon Linux/4.9.0
   default_region: us-east-1
   sc: git
