@@ -8,7 +8,7 @@ executors:
     working_directory: ~/repo
 
 commands:
-  deploy:
+  deploy_api:
     description: "Deploy Application to ElasticBeanstalk"
     steps:
       - run:
@@ -57,15 +57,15 @@ jobs:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
 
-    deploy:
-      executor: obah-executor
-      steps:
-        - checkout
-        - cache_vendors
-        - run:
-            name: Gerando arquivos de Build e Deploy
-            command: yarn build
-        - deploy
+  deploy:
+    executor: obah-executor
+    steps:
+      - checkout
+      - cache_vendors
+      - run:
+          name: Gerando arquivos de Build e Deploy
+          command: yarn build
+      - deploy_api
 workflows:
   version: 2
   test_build_deploy:
