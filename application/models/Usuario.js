@@ -22,25 +22,7 @@ const UsuarioSchema = new Schema({
       ACCOUNT_TYPES.top.name
     ],
     required: [true, "Tipo de Conta é obrigatório"]
-  },
-  topics: [
-    {
-      reference: {
-        type: Schema.Types.ObjectId,
-        ref: "Topicos"
-      },
-      data: Date
-    }
-  ],
-  saved: [
-    {
-      reference: {
-        type: Schema.Types.ObjectId,
-        ref: "Licitacao"
-      },
-      data: Date
-    }
-  ]
+  }
 });
 
 class UsuarioClass {

@@ -8,7 +8,7 @@ executors:
     working_directory: ~/repo
 
 commands:
-  deploy:
+  deploy_api:
     description: "Deploy Application to ElasticBeanstalk"
     steps:
       - run:
@@ -18,54 +18,54 @@ commands:
             sudo apt-get install python-pip python-dev build-essential
             sudo pip install --upgrade setuptools
             sudo pip install awsebcli --upgrade
-          filters:
-            branches:
-              only: master
       - run:
           name: Deploying Api
           command: eb deploy
           filters:
             branches:
               only: master
-
+  cache_vendors:
+    description: "Restore Cache Modules"
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run:
+          name: Instanlando dependencias
+          command: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 jobs:
   test:
     executor: obah-executor
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run:
-          name: Instanlando dependencias
-          command: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - cache_vendors
       - run:
           name: Testando a Aplicação
           command: yarn test
+
   build:
     executor: obah-executor
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run:
-          name: Instanlando dependencias
-          command: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - cache_vendors
       - run:
           name: Gerando arquivos de Build e Deploy
           command: yarn build
-      - deploy
+
+  deploy:
+    executor: obah-executor
+    steps:
+      - checkout
+      - cache_vendors
+      - run:
+          name: Gerando arquivos de Build e Deploy
+          command: yarn build
+      - deploy_api
 workflows:
   version: 2
   test_build_deploy:
@@ -74,3 +74,9 @@ workflows:
       - build:
           requires:
             - test
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
