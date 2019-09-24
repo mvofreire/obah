@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
-import Usuario from "../models/Usuario";
+// import Usuario from "../models/Usuario";
 import appConfig from "../config/main";
+import { User } from "../models";
 
 const isExpired = expire => {
   const now = new Date().getTime() / 1000;
@@ -16,7 +17,9 @@ const isAllowed = req => {
 };
 
 export default async (req, res, next) => {
-  if (req.headers && req.headers.authorization) {
+  if (isAllowed(req)) {
+    next();
+  } else if (req.headers && req.headers.authorization) {
     try {
       let authorization = req.headers.authorization;
       const [type, token] = authorization.split(" ");
@@ -25,18 +28,21 @@ export default async (req, res, next) => {
       });
 
       isExpired(decoded.exp);
-
       var userId = decoded.id;
-      const usuario = await Usuario.findById(userId);
+      const usuario = await User.findByPk(userId);
+
       req.appContext = {
         userSession: usuario
       };
+      next();
     } catch (e) {
       console.log(e);
-      // if (!isAllowed(req)) {
-      //   return res.status(401).send("unauthorized");
-      // }
+
+      if (!isAllowed(req)) {
+        return res.status(401).send("unauthorized");
+      } else {
+        next();
+      }
     }
   }
-  next();
 };

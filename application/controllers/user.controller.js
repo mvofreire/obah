@@ -1,8 +1,7 @@
-import Usuario from "../models/Usuario";
+import { User } from "models";
 
 const me = (req, res) => {
   const me = req.appContext;
-
   res.json(me);
 };
 
@@ -11,7 +10,7 @@ const addFavorite = async (req, res) => {
     const { id } = req.body;
     const { userSession } = req.appContext;
 
-    const user = await Usuario.findById(userSession.id);
+    const user = await User.findById(userSession.id);
     const result = await user.addFavorite(id);
     res.json(result);
   } catch (error) {
@@ -22,9 +21,8 @@ const addFavorite = async (req, res) => {
 const removeFavorite = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const { userSession } = req.appContext;
-    const user = await Usuario.findById(userSession.id);
+    const user = await User.findById(userSession.id);
     const result = await user.removeFavorite(id);
     res.json(result);
   } catch (error) {
@@ -35,7 +33,7 @@ const removeFavorite = async (req, res) => {
 const favorites = async (req, res) => {
   try {
     const { userSession } = req.appContext;
-    const user = await Usuario.findById(userSession.id).populate(
+    const user = await User.findById(userSession.id).populate(
       "saved.reference"
     );
 
@@ -51,11 +49,12 @@ const favorites = async (req, res) => {
 
 const setConfig = async (req, res) => {
   try {
-    const { key, value } = req.body;
+    const data = req.body;
     const { id } = req.appContext.userSession;
-    const user = await Usuario.findById(id);
-    await user.setConfig(key, value);
-    res.json(true);
+    const user = await User.findByPk(id);
+    await user.setConfig(data);
+
+    res.json(user);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -63,12 +62,26 @@ const setConfig = async (req, res) => {
 
 const getConfig = async (req, res) => {
   try {
-    const { key } = req.params;
     const { id } = req.appContext.userSession;
-    const user = await Usuario.findById(id);
-    const result = user.getConfig(key, value);
+    const user = await User.findByPk(id);
+
+    res.json(user.config);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const getConfigValue = async (req, res) => {
+  try {
+    const { key } = req.params;
+
+    const { id } = req.appContext.userSession;
+    const user = await User.findByPk(id);
+
+    const result = user.getConfig(key);
     res.json(result);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };
@@ -79,5 +92,6 @@ export default {
   removeFavorite,
   favorites,
   setConfig,
-  getConfig
+  getConfig,
+  getConfigValue
 };
