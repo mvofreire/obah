@@ -14,10 +14,15 @@ const db = Object.assign(
     )
 
     .map(file => {
-      const model = require(path.join(__dirname, file)).default || null;
-      return {
-        [model.name]: model.init(Datatypes)
-      };
+      try {
+        const model = require(path.join(__dirname, file)).default || null;
+        console.log(model.name);
+        return {
+          [model.name]: model.init(Datatypes)
+        };
+      } catch (error) {
+        console.log(error);
+      }
     })
 );
 
