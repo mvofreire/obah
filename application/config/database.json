@@ -16,7 +16,7 @@
   "production": {
     "username": "obahdbuser",
     "password": "obahdbpass",
-    "database": "aahu240nc6f6at",
+    "database": "ebdb",
     "host": "aahu240nc6f6at.c9mpisplb7dl.us-east-1.rds.amazonaws.com",
     "dialect": "postgres"
   }
