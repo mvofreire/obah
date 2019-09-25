@@ -1,18 +1,15 @@
-version: "3"
+version: "3.1"
 services:
-
-  mongo:
+  db:
     container_name: obah-db
-    image: mongo
+    image: postgres
+    restart: always
     ports:
-      - 27017:27017
+      - "5432:5432"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=obah_username
-      - MONGO_INITDB_ROOT_PASSWORD=obah_pwd
-      - MONGO_INITDB_DATABASE=obah
-    command: mongod --smallfiles --bind_ip_all
-    volumes:
-      - mongo_obah_volume:/etc/mongo
+      POSTGRES_USER: obah_db_user
+      POSTGRES_PASSWORD: obah_db_password
+      POSTGRES_DB: obah_db
 
 volumes:
-  mongo_obah_volume:
+  db_obah_volume:

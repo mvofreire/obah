@@ -1,18 +1,15 @@
-import Usuario from "../models/Usuario";
+import { User } from "models";
 import jwt from "jsonwebtoken";
 import appConfig from "../config/main";
 
 const tokenList = {};
-
 const doLogin = async (req, res) => {
   const { email, password } = req.body;
-  try {
-    const usuario = await Usuario.findUserWithRolesAuthenticate(
-      email,
-      password
-    );
 
-    const token = jwt.sign({ id: usuario._id }, appConfig.tokenSecret, {
+  try {
+    const usuario = await User.findUserWithRolesAuthenticate(email, password);
+
+    const token = jwt.sign({ id: usuario.id }, appConfig.tokenSecret, {
       expiresIn: appConfig.tokenTimeExpiration
     });
     const refreshToken = jwt.sign(
@@ -34,8 +31,13 @@ const doLogin = async (req, res) => {
     tokenList[refreshToken] = response;
     res.status(200).send(response);
   } catch (e) {
+    console.log(e);
     res.status(500).send(e);
   }
+};
+
+const doLoginFacebook = async (req, res) => {
+  res.status(500).send("not implemented");
 };
 
 const refreshToken = (req, res) => {
@@ -65,15 +67,22 @@ const doRegister = async (req, res) => {
   const data = req.body;
 
   try {
-    const usuario = await Usuario.createNewUser(data);
+    const usuario = await User.createNewUser(data);
     return res.status(200).send(usuario);
   } catch (e) {
+    console.log(e);
+
     res.status(500).send("Erro ao criar usuario");
   }
+};
+const doRegisterFacebook = async (req, res) => {
+  res.status(500).send("not implemented");
 };
 
 export default {
   doLogin,
+  doLoginFacebook,
   doRegister,
+  doRegisterFacebook,
   refreshToken
 };

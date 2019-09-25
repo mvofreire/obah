@@ -3,16 +3,24 @@ export default {
   tokenTimeExpiration: "7d",
   refreshTokenSecret: "hn7%a@EW~.f}u6^FFcqx!6!9e|?YsF",
   refreshTokenTimeExpiration: "30d",
-  publicRoutes: ["/", "/login", "/register", "/token", "/system/status"],
+  publicRoutes: [
+    "/",
+    "/login",
+    "/login-facebook",
+    "/register-facebook",
+    "/register",
+    "/token",
+    "/system/status"
+  ],
 
   database: {
     dev: {
-      DB_PROTOCOL: "mongodb://",
+      DB_PROTOCOL: "",
       DB_HOST: "localhost",
-      DB_USER: "obah_username",
-      DB_PASSWORD: "obah_pwd",
-      DB_DATABASE: "admin",
-      DB_PORT: ":27017",
+      DB_USER: "obah_db_user",
+      DB_PASSWORD: "obah_db_password",
+      DB_DATABASE: "obah_db",
+      DB_PORT: "5432",
       DB_OPTIONS: ""
     },
     production: {
