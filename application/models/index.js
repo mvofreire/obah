@@ -10,19 +10,17 @@ const db = Object.assign(
 
     .filter(
       file =>
-        file.indexOf(".") !== 0 && file !== basename && file !== "index.js"
+        file.indexOf(".") !== 0 &&
+        file.indexOf(".js.map") === -1 &&
+        file !== basename &&
+        file !== "index.js"
     )
 
     .map(file => {
-      try {
-        const model = require(path.join(__dirname, file)).default || null;
-        console.log(model.name);
-        return {
-          [model.name]: model.init(Datatypes)
-        };
-      } catch (error) {
-        console.log(error);
-      }
+      const model = require(path.join(__dirname, file)).default || null;
+      return {
+        [model.name]: model.init(Datatypes)
+      };
     })
 );
 
