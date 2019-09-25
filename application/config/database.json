@@ -14,10 +14,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "obah_user",
-    "password": "obah_pass",
-    "database": "obah-db",
-    "host": "obah-db.c9mpisplb7dl.us-east-1.rds.amazonaws.com:5432",
+    "username": "obahdbuser",
+    "password": "obahdbpass",
+    "database": "aahu240nc6f6at",
+    "host": "aahu240nc6f6at.c9mpisplb7dl.us-east-1.rds.amazonaws.com",
     "dialect": "postgres"
   }
 }
