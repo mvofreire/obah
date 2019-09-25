@@ -1,11 +1,5 @@
 import Model from "components/Model";
-
-export const EVENT_TYPES = {
-  PRIVATE: "P",
-  HAPPY_HOUR: "H",
-  CONVERSATION: "C",
-  DINNER: "D"
-};
+import { EVENT_TYPES } from "constants";
 
 class Event extends Model {
   static tableName = "event";

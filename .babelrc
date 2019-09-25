@@ -18,6 +18,7 @@
         "alias": {
           "@app": "./application/middlewares",
           "models": "./application/models",
+          "constants": "./application/constants",
           "routes": "./application/routes",
           "components": "./application/components",
           "controllers": "./application/controllers",

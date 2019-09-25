@@ -1,11 +1,6 @@
 import bcrypt from "bcryptjs";
 import Model from "components/Model";
-
-const USER_COMPLETE_PROFILE = {
-  INCOMPLETE: "I",
-  COMPLETE: "C",
-  PARTIAL: "P"
-};
+import { USER_COMPLETE_PROFILE } from "constants";
 
 class User extends Model {
   static tableName = "user";
