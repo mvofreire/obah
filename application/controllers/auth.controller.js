@@ -21,7 +21,7 @@ const doLogin = async (req, res) => {
     );
 
     const response = {
-      id: usuario._id,
+      id: usuario.id,
       name: usuario.name,
       email: usuario.email,
       saved: usuario.saved,
